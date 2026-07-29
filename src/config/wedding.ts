@@ -1,8 +1,8 @@
 export type LanguageMode = "ja" | "vi" | "both";
 
 export const wedding = {
-  groomName: "Võ Thái Ngọc",
-  brideName: "Tạ Ngọc Linh",
+  groomName: "Thái Ngọc",
+  brideName: "Ngọc Linh",
   weddingDate: "2026-10-12",
   weddingDateDisplay: "12.10.2026",
   weekday: { ja: "月曜日", vi: "Thứ Hai" },
