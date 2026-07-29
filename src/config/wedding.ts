@@ -20,6 +20,9 @@ export const wedding = {
   publicUrl:
     "https://wedding-invitation-jp-vn.vothaingoc1991.chatgpt.site",
   lineContactUrl: "https://line.me/",
+  rsvpEndpoint:
+    "https://docs.google.com/forms/d/e/1FAIpQLSfeipE5jx_QjrvkRQfK-W8YrsRmFv1r42Km21t7SBDrHZPReQ/formResponse",
+  rsvpEntryId: "entry.1680294984",
   showTimeline: false,
   languages: ["ja", "vi", "both"] as LanguageMode[],
   timeline: [

@@ -79,15 +79,11 @@ Sau đó điền:
 VITE_RSVP_ENDPOINT=https://dia-chi-nhan-du-lieu-cua-ban
 ```
 
-### Phương án 1 — Google Sheets qua Google Apps Script (khuyến nghị)
+### Phương án 1 — Google Forms liên kết Google Sheets (đã thiết lập)
 
-1. Tạo một Google Sheet.
-2. Mở **Tiện ích mở rộng → Apps Script**.
-3. Tạo hàm `doPost(e)` để ghi các trường nhận được vào Sheet.
-4. Triển khai dưới dạng Web App, cho phép người có link truy cập.
-5. Dán URL Web App vào `VITE_RSVP_ENDPOINT`.
+Website hiện gửi dữ liệu vào Google Form đã liên kết với Google Sheet `RSVP - Thái Ngọc & Ngọc Linh (Phản hồi)`. Mỗi phản hồi được Google tự động ghi thêm một dòng và kèm thời gian gửi.
 
-Form gửi các khóa: `name`, `attendance`, `guestCount`, `companions`, `allergies`, `message`, `contact`, `confirmed`, `submittedAt`.
+URL mặc định và mã trường nhận dữ liệu nằm trong `src/config/wedding.ts` ở hai mục `rsvpEndpoint` và `rsvpEntryId`. Có thể ghi đè URL bằng biến `VITE_RSVP_ENDPOINT` nếu chuyển sang một dịch vụ khác.
 
 ### Phương án 2 — Chia sẻ trực tiếp qua LINE
 

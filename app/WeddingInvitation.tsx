@@ -152,7 +152,8 @@ export default function WeddingInvitation() {
     event.preventDefault();
     if (!form.confirmed) return;
 
-    const endpoint = import.meta.env.VITE_RSVP_ENDPOINT?.trim();
+    const endpoint =
+      import.meta.env.VITE_RSVP_ENDPOINT?.trim() || wedding.rsvpEndpoint;
     if (!endpoint) {
       setFormState("demo");
       return;
@@ -160,11 +161,13 @@ export default function WeddingInvitation() {
 
     setFormState("sending");
     try {
-      const body = new URLSearchParams({
-        ...form,
-        confirmed: String(form.confirmed),
-        submittedAt: new Date().toISOString(),
-      });
+      const body = wedding.rsvpEntryId
+        ? new URLSearchParams({ [wedding.rsvpEntryId]: responseText })
+        : new URLSearchParams({
+            ...form,
+            confirmed: String(form.confirmed),
+            submittedAt: new Date().toISOString(),
+          });
       await fetch(endpoint, { method: "POST", mode: "no-cors", body });
       setFormState("success");
     } catch {
