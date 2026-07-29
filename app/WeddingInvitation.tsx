@@ -265,7 +265,10 @@ export default function WeddingInvitation() {
           </div>
           <div className="venue">
             <span className="venue-icon" aria-hidden="true">⌖</span>
-            <h3>{wedding.venueName}</h3>
+            <h3 className="venue-title">
+              {language !== "vi" && <span lang="ja">{wedding.venueName.ja}</span>}
+              {language !== "ja" && <span lang="vi">{wedding.venueName.vi}</span>}
+            </h3>
             <p>{wedding.venueAddress}</p>
             {wedding.venuePhone && (
               <a href={`tel:${wedding.venuePhone}`}>{wedding.venuePhone}</a>

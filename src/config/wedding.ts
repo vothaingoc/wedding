@@ -8,7 +8,7 @@ export const wedding = {
   weekday: { ja: "月曜日", vi: "Thứ Hai" },
   receptionTime: "14:30",
   ceremonyTime: "15:00",
-  venueName: "Tại nhà cô dâu",
+  venueName: { ja: "新婦宅", vi: "Tại nhà cô dâu" },
   venueAddress: "Đội 9, Cẩm Đội, phường Nông Trang, tỉnh Phú Thọ",
   venuePhone: "",
   googleMapsUrl:

@@ -397,6 +397,9 @@ main {
 }
 
 .venue h3 {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
   margin: 0 0 10px;
   font-size: 18px;
   font-weight: 400;
