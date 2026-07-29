@@ -264,7 +264,9 @@ export default function WeddingInvitation() {
             <span className="venue-icon" aria-hidden="true">⌖</span>
             <h3>{wedding.venueName}</h3>
             <p>{wedding.venueAddress}</p>
-            <a href={`tel:${wedding.venuePhone}`}>{wedding.venuePhone}</a>
+            {wedding.venuePhone && (
+              <a href={`tel:${wedding.venuePhone}`}>{wedding.venuePhone}</a>
+            )}
           </div>
           <a className="primary-button" href={wedding.googleMapsUrl} target="_blank" rel="noreferrer">
             <span lang="ja">Google Mapで確認</span>
