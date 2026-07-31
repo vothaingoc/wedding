@@ -72,7 +72,7 @@ function SectionHeading({
 }
 
 export default function WeddingInvitation() {
-  const [language, setLanguage] = useState<LanguageMode>("both");
+  const [language, setLanguage] = useState<LanguageMode>("vi");
   const [form, setForm] = useState<RsvpData>(emptyRsvp);
   const [formState, setFormState] = useState<
     "idle" | "sending" | "success" | "demo" | "error" | "copied"
@@ -181,7 +181,6 @@ export default function WeddingInvitation() {
         {([
           ["ja", "日本語"],
           ["vi", "Tiếng Việt"],
-          ["both", "日本語・Việt"],
         ] as const).map(([value, label]) => (
           <button
             key={value}

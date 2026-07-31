@@ -277,12 +277,6 @@ main {
   line-height: 1.85;
 }
 
-.mode-both.prose .copy-vi {
-  margin-top: 36px;
-  padding-top: 32px;
-  border-top: 1px solid var(--line);
-}
-
 .signature {
   margin-top: 46px;
   color: var(--olive-deep);
@@ -331,14 +325,6 @@ main {
   font-size: 12px;
 }
 
-.date-display .mode-both {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-}
-
-.date-display .mode-both .copy-ja::after { content: "・"; }
-
 .time-grid {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
@@ -379,8 +365,6 @@ main {
 
 .time-grid .copy-ja,
 .time-grid .copy-vi { display: inline; }
-
-.time-grid .mode-both .copy-ja::after { content: "・"; }
 
 .venue { padding: 32px 0 25px; }
 

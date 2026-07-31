@@ -1,4 +1,4 @@
-export type LanguageMode = "ja" | "vi" | "both";
+export type LanguageMode = "ja" | "vi";
 
 export const wedding = {
   groomName: "Thái Ngọc",
@@ -24,7 +24,7 @@ export const wedding = {
     "https://docs.google.com/forms/d/e/1FAIpQLSfeipE5jx_QjrvkRQfK-W8YrsRmFv1r42Km21t7SBDrHZPReQ/formResponse",
   rsvpEntryId: "entry.1680294984",
   showTimeline: false,
-  languages: ["ja", "vi", "both"] as LanguageMode[],
+  languages: ["ja", "vi"] as LanguageMode[],
   timeline: [
     { time: "10:30", label: { ja: "受付", vi: "Đón khách" } },
     { time: "11:00", label: { ja: "挙式", vi: "Lễ thành hôn" } },
