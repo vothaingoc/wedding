@@ -258,9 +258,9 @@ export default function WeddingInvitation() {
             </div>
             <div className="time-divider" aria-hidden="true" />
             <div>
-              <span>{isJapanese ? "挙式" : "HÔN LỄ"}</span>
-              <strong>{wedding.ceremonyTime}</strong>
-              <LanguageBlock mode={language} ja="挙式開始" vi="Bắt đầu hôn lễ" />
+              <span>{isJapanese ? "披露宴" : "NHẬP TIỆC"}</span>
+              <strong>{wedding.banquetTime}</strong>
+              <LanguageBlock mode={language} ja="披露宴開始" vi="Bắt đầu nhập tiệc" />
             </div>
           </div>
           <div className="venue">

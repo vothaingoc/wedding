@@ -7,10 +7,10 @@ export const wedding = {
   weddingDateDisplay: { ja: "2026年10月12日", vi: "12.10.2026" },
   weekday: { ja: "月曜日", vi: "Thứ Hai" },
   receptionTime: "14:30",
-  ceremonyTime: "15:00",
+  banquetTime: "15:00",
   venueName: { ja: "新婦宅", vi: "Tại nhà cô dâu" },
   venueAddress: {
-    ja: "住所：ベトナム・フートー省・ノンチャン坊・カムドイ・第9組",
+    ja: "住所：Đội 9, Cẩm Đội, phường Nông Trang, tỉnh Phú Thọ",
     vi: "Địa chỉ: Đội 9, Cẩm Đội, phường Nông Trang, tỉnh Phú Thọ",
   },
   venuePhone: "",
