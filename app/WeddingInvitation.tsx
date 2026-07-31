@@ -150,23 +150,34 @@ export default function WeddingInvitation() {
   }, []);
 
   const responseText = useMemo(
-    () =>
-      [
-        "【結婚式出欠回答】",
+    () => {
+      if (language === "ja") {
+        return [
+          "【結婚式出欠回答】",
+          "",
+          `お名前：${form.name || "—"}`,
+          `ご出欠：${form.attendance === "yes" ? "出席します" : "欠席します"}`,
+          `ご参加人数：${form.guestCount || "—"}`,
+          `お連れ様：${form.companions || "—"}`,
+          `アレルギー・お食事のご要望：${form.allergies || "—"}`,
+          `メッセージ：${form.message || "—"}`,
+          `ご連絡先：${form.contact || "—"}`,
+        ].join("\n");
+      }
+
+      return [
+        "【XÁC NHẬN THAM DỰ ĐÁM CƯỚI】",
         "",
-        `お名前・Họ tên：${form.name || "—"}`,
-        `ご出席・Tham dự：${
-          form.attendance === "yes"
-            ? "出席します・Tôi sẽ tham dự"
-            : "欠席します・Tôi không thể tham dự"
-        }`,
-        `ご参加人数・Số người：${form.guestCount || "—"}`,
-        `お連れ様・Người đi cùng：${form.companions || "—"}`,
-        `アレルギー・Dị ứng：${form.allergies || "—"}`,
-        `メッセージ・Lời nhắn：${form.message || "—"}`,
-        `ご連絡先・Liên hệ：${form.contact || "—"}`,
-      ].join("\n"),
-    [form],
+        `Họ tên: ${form.name || "—"}`,
+        `Tham dự: ${form.attendance === "yes" ? "Tôi sẽ tham dự" : "Tôi không thể tham dự"}`,
+        `Số người: ${form.guestCount || "—"}`,
+        `Người đi cùng: ${form.companions || "—"}`,
+        `Dị ứng / yêu cầu món ăn: ${form.allergies || "—"}`,
+        `Lời nhắn: ${form.message || "—"}`,
+        `Liên hệ: ${form.contact || "—"}`,
+      ].join("\n");
+    },
+    [form, language],
   );
 
   function updateField<K extends keyof RsvpData>(key: K, value: RsvpData[K]) {
