@@ -707,8 +707,126 @@ fieldset legend {
   text-align: center;
 }
 
-.notice-success { border-color: rgba(93, 116, 77, 0.35); background: rgba(93, 116, 77, 0.09); }
 .notice-error { border-color: rgba(153, 83, 70, 0.35); background: rgba(153, 83, 70, 0.08); }
+
+.thank-you-page {
+  display: grid;
+  min-height: 100svh;
+  place-items: center;
+  padding: 32px 18px;
+  background:
+    radial-gradient(circle at 50% 8%, rgba(216, 196, 151, 0.32), transparent 34%),
+    linear-gradient(145deg, #f7f3e9 0%, #e8e6dc 100%);
+}
+
+.thank-you-card {
+  position: relative;
+  width: min(100%, 620px);
+  padding: 58px 26px 50px;
+  border: 1px solid rgba(184, 154, 90, 0.42);
+  background: rgba(255, 253, 248, 0.94);
+  box-shadow: 0 28px 80px rgba(52, 52, 43, 0.16);
+  text-align: center;
+}
+
+.thank-you-card::before,
+.thank-you-card::after {
+  content: "";
+  position: absolute;
+  width: 42px;
+  height: 42px;
+}
+
+.thank-you-card::before {
+  top: 12px;
+  left: 12px;
+  border-top: 1px solid var(--gold);
+  border-left: 1px solid var(--gold);
+}
+
+.thank-you-card::after {
+  right: 12px;
+  bottom: 12px;
+  border-right: 1px solid var(--gold);
+  border-bottom: 1px solid var(--gold);
+}
+
+.thank-you-ring {
+  display: grid;
+  width: 74px;
+  height: 74px;
+  place-items: center;
+  margin: 0 auto 28px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  color: var(--olive-deep);
+  font-family: Arial, sans-serif;
+  font-size: 30px;
+}
+
+.thank-you-eyebrow {
+  margin: 0 0 15px;
+  color: var(--gold);
+  font-family: Arial, "Noto Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+}
+
+.thank-you-card h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(29px, 8vw, 42px);
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+}
+
+.thank-you-lead,
+.thank-you-note {
+  max-width: 470px;
+  margin-right: auto;
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.thank-you-lead { margin-top: 24px; margin-bottom: 0; }
+.thank-you-note { margin-top: 0; margin-bottom: 0; }
+
+.thank-you-page[lang="vi"] .thank-you-lead,
+.thank-you-page[lang="vi"] .thank-you-note {
+  font-family: Arial, "Noto Sans", sans-serif;
+}
+
+.thank-you-divider {
+  width: 74px;
+  height: 1px;
+  margin: 30px auto;
+  background: var(--gold-light);
+}
+
+.thank-you-names {
+  margin-top: 38px;
+  color: var(--olive-deep);
+  font-size: 20px;
+  letter-spacing: 0.06em;
+}
+
+.thank-you-names span {
+  padding: 0 7px;
+  color: var(--gold);
+  font-style: italic;
+}
+
+.thank-you-date {
+  margin: 12px 0 0;
+  color: #989383;
+  font-family: Arial, "Noto Sans", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
 
 footer {
   padding: 88px 24px calc(88px + env(safe-area-inset-bottom));

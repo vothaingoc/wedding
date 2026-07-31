@@ -72,11 +72,47 @@ function SectionHeading({
   );
 }
 
+function ThankYouView({ language }: { language: LanguageMode }) {
+  const isJapanese = language === "ja";
+
+  return (
+    <main className="thank-you-page" lang={language}>
+      <section className="thank-you-card" aria-labelledby="thank-you-title">
+        <div className="thank-you-ring" aria-hidden="true">
+          <span>✓</span>
+        </div>
+        <p className="thank-you-eyebrow">
+          {isJapanese ? "ご回答を受け付けました" : "ĐÃ NHẬN PHẢN HỒI"}
+        </p>
+        <h1 id="thank-you-title">
+          {isJapanese ? "心よりありがとうございます" : "Chân thành cảm ơn"}
+        </h1>
+        <p className="thank-you-lead">
+          {isJapanese
+            ? "ご回答は正常に送信され、確かに受け付けました。"
+            : "Phản hồi của bạn đã được gửi thành công và chúng tôi đã nhận được thông tin."}
+        </p>
+        <div className="thank-you-divider" aria-hidden="true" />
+        <p className="thank-you-note">
+          {isJapanese
+            ? "当日お会いできますことを、家族一同心より楽しみにしております。このページは閉じていただいて構いません。"
+            : "Gia đình rất mong được đón tiếp bạn trong ngày vui. Bạn có thể đóng trang này."}
+        </p>
+        <div className="thank-you-names">
+          {wedding.groomName} <span>&amp;</span> {wedding.brideName}
+        </div>
+        <p className="thank-you-date">{wedding.weddingDateDisplay[language]}</p>
+      </section>
+    </main>
+  );
+}
+
 export default function WeddingInvitation() {
   const [language, setLanguage] = useState<LanguageMode>("vi");
+  const [completedLanguage, setCompletedLanguage] = useState<LanguageMode | null>(null);
   const [form, setForm] = useState<RsvpData>(emptyRsvp);
   const [formState, setFormState] = useState<
-    "idle" | "sending" | "success" | "demo" | "error"
+    "idle" | "sending" | "demo" | "error"
   >("idle");
   const rootRef = useRef<HTMLElement>(null);
   const isJapanese = language === "ja";
@@ -98,6 +134,15 @@ export default function WeddingInvitation() {
   useEffect(() => {
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("rsvp") !== "complete") return;
+
+    const submittedLanguage: LanguageMode = params.get("lang") === "ja" ? "ja" : "vi";
+    setCompletedLanguage(submittedLanguage);
+    document.documentElement.lang = submittedLanguage;
+  }, []);
 
   const deadlinePassed = useMemo(() => {
     const deadline = new Date(`${wedding.replyDeadline}T23:59:59`);
@@ -150,10 +195,26 @@ export default function WeddingInvitation() {
             submittedAt: new Date().toISOString(),
           });
       await fetch(endpoint, { method: "POST", mode: "no-cors", body });
-      setFormState("success");
+      const confirmationUrl = new URL(window.location.href);
+      confirmationUrl.search = "";
+      confirmationUrl.hash = "";
+      confirmationUrl.searchParams.set("rsvp", "complete");
+      confirmationUrl.searchParams.set("lang", language);
+      window.history.replaceState(
+        { rsvpComplete: true },
+        "",
+        `${confirmationUrl.pathname}${confirmationUrl.search}`,
+      );
+      setForm(emptyRsvp);
+      setCompletedLanguage(language);
+      window.scrollTo({ top: 0, behavior: "auto" });
     } catch {
       setFormState("error");
     }
+  }
+
+  if (completedLanguage) {
+    return <ThankYouView language={completedLanguage} />;
   }
 
   return (
@@ -408,13 +469,6 @@ export default function WeddingInvitation() {
                     {isJapanese
                       ? "フォームは現在テストモードのため、回答は送信されていません。"
                       : "Biểu mẫu đang ở chế độ thử nghiệm và chưa gửi dữ liệu."}
-                  </p>
-                )}
-                {formState === "success" && (
-                  <p lang={language}>
-                    {isJapanese
-                      ? "送信が完了しました。ご回答ありがとうございます。"
-                      : "Đã gửi thành công. Cảm ơn bạn đã xác nhận tham dự."}
                   </p>
                 )}
                 {formState === "error" && (
