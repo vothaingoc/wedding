@@ -220,24 +220,16 @@ main {
   margin-bottom: 15px;
   color: var(--gold);
   font-family: Arial, sans-serif;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.3em;
 }
 
 .section-heading h2 {
   margin: 0;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 400;
   letter-spacing: 0.12em;
-}
-
-.section-heading p {
-  margin: 8px 0 0;
-  color: var(--muted);
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.08em;
 }
 
 .invitation-intro {
@@ -264,8 +256,8 @@ main {
 
 .prose {
   margin: 0 auto;
-  font-size: 13px;
-  line-height: 2.05;
+  font-size: 16px;
+  line-height: 1.95;
 }
 
 .prose p { margin: 0 0 24px; }
@@ -280,7 +272,7 @@ main {
 .signature {
   margin-top: 46px;
   color: var(--olive-deep);
-  font-size: 15px;
+  font-size: 18px;
   letter-spacing: 0.08em;
 }
 
@@ -319,10 +311,15 @@ main {
   letter-spacing: 0.08em;
 }
 
+.date-display > strong.date-ja {
+  font-size: clamp(24px, 7.2vw, 38px);
+  letter-spacing: 0.02em;
+}
+
 .date-display .language-block {
   color: var(--muted);
   font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .time-grid {
@@ -348,7 +345,7 @@ main {
 .time-grid span {
   color: var(--gold);
   font-family: Arial, sans-serif;
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.2em;
 }
 
@@ -360,7 +357,7 @@ main {
 
 .time-grid .language-block {
   color: var(--muted);
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .time-grid .copy-ja,
@@ -395,8 +392,8 @@ main {
   margin: 4px 0;
   color: var(--muted);
   font-family: Arial, sans-serif;
-  font-size: 12px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.7;
 }
 
 .primary-button,
@@ -410,12 +407,10 @@ main {
   background: var(--olive-deep);
   color: white;
   text-decoration: none;
-  font-size: 11px;
+  font-size: 14px;
   letter-spacing: 0.04em;
   transition: 0.25s ease;
 }
-
-.primary-button span:first-child::after { content: "・"; }
 
 .timeline-section {
   max-width: 620px;
@@ -534,7 +529,7 @@ main {
   color: var(--muted);
   text-align: center;
   font-family: Arial, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .deadline-note,
@@ -545,7 +540,7 @@ main {
   background: rgba(232, 220, 190, 0.23);
   color: #645b47;
   font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
@@ -560,13 +555,13 @@ form { display: grid; gap: 23px; }
   display: grid;
   gap: 8px;
   font-family: Arial, sans-serif;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .field > span,
 fieldset legend {
   color: #57564f;
-  font-size: 11px;
+  font-size: 14px;
 }
 
 .field b,
@@ -639,7 +634,7 @@ fieldset legend {
   padding: 10px 14px 10px 48px;
   border: 1px solid #d8d3c6;
   font-family: Arial, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -668,7 +663,7 @@ fieldset legend {
 .radio-card strong {
   color: var(--ink);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
 }
 
@@ -691,7 +686,7 @@ fieldset legend {
   display: flex;
   flex-direction: column;
   font-family: Arial, sans-serif;
-  font-size: 11px;
+  font-size: 14px;
   line-height: 1.55;
 }
 
@@ -705,11 +700,6 @@ fieldset legend {
   cursor: pointer;
 }
 
-.submit-button span:last-child {
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-}
-
 .submit-button:disabled { opacity: 0.58; }
 
 .form-notice {
@@ -717,71 +707,8 @@ fieldset legend {
   text-align: center;
 }
 
-.form-notice button {
-  padding: 8px 12px;
-  border: 1px solid var(--olive);
-  background: transparent;
-  color: var(--olive-deep);
-  font-family: Arial, sans-serif;
-  font-size: 11px;
-  cursor: pointer;
-}
-
 .notice-success { border-color: rgba(93, 116, 77, 0.35); background: rgba(93, 116, 77, 0.09); }
 .notice-error { border-color: rgba(153, 83, 70, 0.35); background: rgba(153, 83, 70, 0.08); }
-
-.or-divider {
-  position: relative;
-  height: 14px;
-  border-top: 1px solid var(--line);
-  text-align: center;
-}
-
-.or-divider span {
-  position: relative;
-  top: -8px;
-  padding: 0 12px;
-  background: var(--paper);
-  color: #999486;
-  font-family: Arial, sans-serif;
-  font-size: 9px;
-  letter-spacing: 0.08em;
-}
-
-.line-button {
-  display: flex;
-  width: 100%;
-  min-height: 62px;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  border: 1px solid #07b53b;
-  background: white;
-  color: #138137;
-  cursor: pointer;
-}
-
-.line-button > span:last-child {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.line-button small {
-  color: #57705d;
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-}
-
-.line-badge {
-  padding: 5px 7px;
-  border-radius: 4px;
-  background: #07b53b;
-  color: white;
-  font-family: Arial, sans-serif;
-  font-size: 10px;
-  font-weight: 700;
-}
 
 footer {
   padding: 88px 24px calc(88px + env(safe-area-inset-bottom));
@@ -803,7 +730,7 @@ footer {
 }
 
 .footer-message {
-  font-size: 13px;
+  font-size: 16px;
   line-height: 2;
 }
 
@@ -812,7 +739,7 @@ footer {
   margin: 13px auto 0;
   color: #cfcbbb;
   font-family: Arial, sans-serif;
-  font-size: 11px;
+  font-size: 16px;
 }
 
 .footer-names {
@@ -831,7 +758,7 @@ footer {
 .footer-date {
   color: #aaa897;
   font-family: Arial, sans-serif;
-  font-size: 10px;
+  font-size: 13px;
   letter-spacing: 0.2em;
 }
 

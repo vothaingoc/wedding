@@ -4,22 +4,24 @@ export const wedding = {
   groomName: "Thái Ngọc",
   brideName: "Ngọc Linh",
   weddingDate: "2026-10-12",
-  weddingDateDisplay: "12.10.2026",
+  weddingDateDisplay: { ja: "2026年10月12日", vi: "12.10.2026" },
   weekday: { ja: "月曜日", vi: "Thứ Hai" },
   receptionTime: "14:30",
   ceremonyTime: "15:00",
   venueName: { ja: "新婦宅", vi: "Tại nhà cô dâu" },
-  venueAddress: "Đội 9, Cẩm Đội, phường Nông Trang, tỉnh Phú Thọ",
+  venueAddress: {
+    ja: "住所：ベトナム・フートー省・ノンチャン坊・カムドイ・第9組",
+    vi: "Địa chỉ: Đội 9, Cẩm Đội, phường Nông Trang, tỉnh Phú Thọ",
+  },
   venuePhone: "",
   googleMapsUrl:
     "https://www.google.com/maps?q=21.33199519890027,105.35638231689768",
   replyDeadline: "2026-09-15",
-  replyDeadlineDisplay: "15.09.2026",
+  replyDeadlineDisplay: { ja: "2026年9月15日", vi: "15.09.2026" },
   coverImage: "/wedding-cover-mobile.jpg",
   ogImage: "/og-wedding.png",
   publicUrl:
     "https://wedding-invitation-jp-vn.vothaingoc1991.chatgpt.site",
-  lineContactUrl: "https://line.me/",
   rsvpEndpoint:
     "https://docs.google.com/forms/d/e/1FAIpQLSfeipE5jx_QjrvkRQfK-W8YrsRmFv1r42Km21t7SBDrHZPReQ/formResponse",
   rsvpEntryId: "entry.1680294984",

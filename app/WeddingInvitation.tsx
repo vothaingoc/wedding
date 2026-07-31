@@ -54,19 +54,20 @@ function LanguageBlock({
 }
 
 function SectionHeading({
+  mode,
   eyebrow,
   ja,
   vi,
 }: {
-  eyebrow: string;
+  mode: LanguageMode;
+  eyebrow: { ja: string; vi: string };
   ja: string;
   vi: string;
 }) {
   return (
     <header className="section-heading">
-      <span>{eyebrow}</span>
-      <h2 lang="ja">{ja}</h2>
-      <p>{vi}</p>
+      <span lang={mode}>{mode === "ja" ? eyebrow.ja : eyebrow.vi}</span>
+      <h2 lang={mode}>{mode === "ja" ? ja : vi}</h2>
     </header>
   );
 }
@@ -75,9 +76,10 @@ export default function WeddingInvitation() {
   const [language, setLanguage] = useState<LanguageMode>("vi");
   const [form, setForm] = useState<RsvpData>(emptyRsvp);
   const [formState, setFormState] = useState<
-    "idle" | "sending" | "success" | "demo" | "error" | "copied"
+    "idle" | "sending" | "success" | "demo" | "error"
   >("idle");
   const rootRef = useRef<HTMLElement>(null);
+  const isJapanese = language === "ja";
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -92,6 +94,10 @@ export default function WeddingInvitation() {
     elements?.forEach((element) => observer.observe(element));
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+  }, [language]);
 
   const deadlinePassed = useMemo(() => {
     const deadline = new Date(`${wedding.replyDeadline}T23:59:59`);
@@ -123,31 +129,6 @@ export default function WeddingInvitation() {
     if (formState !== "idle") setFormState("idle");
   }
 
-  async function copyResponse() {
-    await navigator.clipboard.writeText(responseText);
-    setFormState("copied");
-  }
-
-  async function shareResponse() {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "結婚式出欠回答・Xác nhận tham dự",
-          text: responseText,
-        });
-        return;
-      } catch {
-        return;
-      }
-    }
-    await copyResponse();
-    window.open(
-      `https://line.me/R/msg/text/?${encodeURIComponent(responseText)}`,
-      "_blank",
-      "noopener,noreferrer",
-    );
-  }
-
   async function submitRsvp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!form.confirmed) return;
@@ -177,7 +158,7 @@ export default function WeddingInvitation() {
 
   return (
     <main ref={rootRef}>
-      <div className="language-switcher" aria-label="Chọn ngôn ngữ">
+      <div className="language-switcher" aria-label={isJapanese ? "言語を選択" : "Chọn ngôn ngữ"}>
         {([
           ["ja", "日本語"],
           ["vi", "Tiếng Việt"],
@@ -198,35 +179,48 @@ export default function WeddingInvitation() {
         <img
           className="hero-image"
           src={wedding.coverImage}
-          alt={`${wedding.groomName} và ${wedding.brideName}`}
+          alt={isJapanese
+            ? `${wedding.groomName}と${wedding.brideName}`
+            : `${wedding.groomName} và ${wedding.brideName}`}
           fetchPriority="high"
         />
         <div className="hero-shade" />
         <div className="hero-content">
-          <p className="hero-kicker">WEDDING INVITATION</p>
+          <p className="hero-kicker" lang={language}>
+            {isJapanese ? "結婚式のご案内" : "THIỆP MỜI ĐÁM CƯỚI"}
+          </p>
           <div className="hero-mark" aria-hidden="true">結</div>
           <h1>
             <span>{wedding.groomName}</span>
             <em>&amp;</em>
             <span>{wedding.brideName}</span>
           </h1>
-          <div className="hero-date">{wedding.weddingDateDisplay}</div>
+          <div className="hero-date">{wedding.weddingDateDisplay[language]}</div>
           <LanguageBlock
             mode={language}
             ja={<Lines text={wedding.heroMessage.ja} />}
             vi={<Lines text={wedding.heroMessage.vi} />}
             className="hero-message"
           />
-          <a className="scroll-cue" href="#greeting" aria-label="Xem thiệp mời">
+          <a
+            className="scroll-cue"
+            href="#greeting"
+            aria-label={isJapanese ? "招待状を見る" : "Xem thiệp mời"}
+          >
             <span />
-            SCROLL
+            {isJapanese ? "スクロール" : "XEM THIỆP"}
           </a>
         </div>
       </section>
 
       <section id="greeting" className="section invitation-intro reveal">
         <div className="enso" aria-hidden="true">縁</div>
-        <SectionHeading eyebrow="OUR INVITATION" ja="ご挨拶" vi="Lời chào" />
+        <SectionHeading
+          mode={language}
+          eyebrow={{ ja: "ご招待", vi: "LỜI MỜI" }}
+          ja="ご挨拶"
+          vi="Lời chào"
+        />
         <LanguageBlock
           mode={language}
           ja={wedding.greeting.ja.map((paragraph) => (
@@ -244,22 +238,29 @@ export default function WeddingInvitation() {
 
       <section className="section details-section">
         <div className="details-card reveal">
-          <SectionHeading eyebrow="WEDDING DAY" ja="日時・会場" vi="Thời gian & địa điểm" />
+          <SectionHeading
+            mode={language}
+            eyebrow={{ ja: "挙式のご案内", vi: "NGÀY CƯỚI" }}
+            ja="日時・会場"
+            vi="Thời gian & địa điểm"
+          />
           <div className="date-display">
-            <strong>{wedding.weddingDateDisplay}</strong>
+            <strong className={isJapanese ? "date-ja" : undefined}>
+              {wedding.weddingDateDisplay[language]}
+            </strong>
             <LanguageBlock mode={language} ja={wedding.weekday.ja} vi={wedding.weekday.vi} />
           </div>
           <div className="time-grid">
             <div>
-              <span>RECEPTION</span>
+              <span>{isJapanese ? "受付" : "ĐÓN KHÁCH"}</span>
               <strong>{wedding.receptionTime}</strong>
-              <LanguageBlock mode={language} ja="受付" vi="Đón khách" />
+              <LanguageBlock mode={language} ja="受付開始" vi="Thời gian đón khách" />
             </div>
             <div className="time-divider" aria-hidden="true" />
             <div>
-              <span>CEREMONY</span>
+              <span>{isJapanese ? "挙式" : "HÔN LỄ"}</span>
               <strong>{wedding.ceremonyTime}</strong>
-              <LanguageBlock mode={language} ja="挙式" vi="Bắt đầu" />
+              <LanguageBlock mode={language} ja="挙式開始" vi="Bắt đầu hôn lễ" />
             </div>
           </div>
           <div className="venue">
@@ -268,21 +269,25 @@ export default function WeddingInvitation() {
               {language !== "vi" && <span lang="ja">{wedding.venueName.ja}</span>}
               {language !== "ja" && <span lang="vi">{wedding.venueName.vi}</span>}
             </h3>
-            <p>{wedding.venueAddress}</p>
+            <p lang={language}>{wedding.venueAddress[language]}</p>
             {wedding.venuePhone && (
               <a href={`tel:${wedding.venuePhone}`}>{wedding.venuePhone}</a>
             )}
           </div>
           <a className="primary-button" href={wedding.googleMapsUrl} target="_blank" rel="noreferrer">
-            <span lang="ja">Google Mapで確認</span>
-            <span>Xem trên Google Maps</span>
+            <span lang={language}>{isJapanese ? "Google マップで確認" : "Xem trên Google Maps"}</span>
           </a>
         </div>
       </section>
 
       {wedding.showTimeline && (
         <section className="section timeline-section reveal">
-          <SectionHeading eyebrow="SCHEDULE" ja="当日の流れ" vi="Lịch trình" />
+          <SectionHeading
+            mode={language}
+            eyebrow={{ ja: "当日の予定", vi: "LỊCH TRÌNH" }}
+            ja="当日の流れ"
+            vi="Lịch trình"
+          />
           <div className="timeline">
             {wedding.timeline.map((item, index) => (
               <div className="timeline-item" key={`${item.time}-${index}`}>
@@ -299,7 +304,8 @@ export default function WeddingInvitation() {
         <div className="family-message reveal">
           <div className="olive-symbol" aria-hidden="true">❧</div>
           <SectionHeading
-            eyebrow="A NOTE FROM US"
+            mode={language}
+            eyebrow={{ ja: "私たちから", vi: "LỜI NHẮN" }}
             ja={wedding.noGiftMessage.title.ja}
             vi={wedding.noGiftMessage.title.vi}
           />
@@ -319,91 +325,107 @@ export default function WeddingInvitation() {
       <section className="section rsvp-section" id="rsvp">
         <div className="rsvp-card reveal">
           <SectionHeading
-            eyebrow="RÉPONDEZ S’IL VOUS PLAÎT"
+            mode={language}
+            eyebrow={{ ja: "ご出欠", vi: "PHẢN HỒI" }}
             ja="ご出欠のご回答"
             vi="Xác nhận tham dự"
           />
           <div className="deadline">
-            <span lang="ja">回答期限：{wedding.replyDeadlineDisplay}</span>
-            <span>Vui lòng phản hồi trước ngày {wedding.replyDeadlineDisplay}.</span>
+            <span lang={language}>
+              {isJapanese
+                ? `回答期限：${wedding.replyDeadlineDisplay.ja}`
+                : `Vui lòng phản hồi trước ngày ${wedding.replyDeadlineDisplay.vi}.`}
+            </span>
           </div>
           {deadlinePassed && (
             <div className="deadline-note" role="status">
-              <p lang="ja">回答期限を過ぎていますので、送信後に新郎新婦へ直接ご連絡ください。</p>
-              <p>Đã quá hạn phản hồi, sau khi gửi vui lòng liên hệ trực tiếp với cô dâu chú rể.</p>
+              <p lang={language}>
+                {isJapanese
+                  ? "回答期限を過ぎていますので、送信後に新郎新婦へ直接ご連絡ください。"
+                  : "Đã quá hạn phản hồi, sau khi gửi vui lòng liên hệ trực tiếp với cô dâu chú rể."}
+              </p>
             </div>
           )}
 
           <form onSubmit={submitRsvp}>
             <label className="field">
-              <span>お名前・Họ và tên <b>*</b></span>
-              <input required name="name" value={form.name} onChange={(e) => updateField("name", e.target.value)} placeholder="Nguyễn Văn A" autoComplete="name" />
+              <span>{isJapanese ? "お名前" : "Họ và tên"} <b>*</b></span>
+              <input required name="name" value={form.name} onChange={(e) => updateField("name", e.target.value)} placeholder={isJapanese ? "例：山田 太郎" : "Nguyễn Văn A"} autoComplete="name" />
             </label>
 
             <fieldset>
-              <legend>ご出欠・Xác nhận <b>*</b></legend>
+              <legend>{isJapanese ? "ご出欠" : "Xác nhận tham dự"} <b>*</b></legend>
               <label className="radio-card">
                 <input type="radio" name="attendance" value="yes" checked={form.attendance === "yes"} onChange={() => updateField("attendance", "yes")} />
-                <span><strong lang="ja">出席します</strong>Tôi sẽ tham dự</span>
+                <span><strong lang={language}>{isJapanese ? "出席します" : "Tôi sẽ tham dự"}</strong></span>
               </label>
               <label className="radio-card">
                 <input type="radio" name="attendance" value="no" checked={form.attendance === "no"} onChange={() => updateField("attendance", "no")} />
-                <span><strong lang="ja">欠席します</strong>Tôi không thể tham dự</span>
+                <span><strong lang={language}>{isJapanese ? "欠席します" : "Tôi không thể tham dự"}</strong></span>
               </label>
             </fieldset>
 
             <label className="field">
-              <span>ご参加人数・Số người tham dự</span>
+              <span>{isJapanese ? "ご参加人数" : "Số người tham dự"}</span>
               <select name="guestCount" value={form.guestCount} onChange={(e) => updateField("guestCount", e.target.value)} disabled={form.attendance === "no"}>
                 {[1, 2, 3, 4, 5, 6].map((count) => <option key={count} value={count}>{count}</option>)}
               </select>
             </label>
             <label className="field">
-              <span>お連れ様・Tên người đi cùng</span>
+              <span>{isJapanese ? "お連れ様のお名前" : "Tên người đi cùng"}</span>
               <input name="companions" value={form.companions} onChange={(e) => updateField("companions", e.target.value)} disabled={form.attendance === "no"} />
             </label>
             <label className="field">
-              <span>アレルギー・Dị ứng / yêu cầu món ăn</span>
+              <span>{isJapanese ? "アレルギー・お食事のご要望" : "Dị ứng / yêu cầu món ăn"}</span>
               <textarea name="allergies" rows={3} value={form.allergies} onChange={(e) => updateField("allergies", e.target.value)} disabled={form.attendance === "no"} />
             </label>
             <label className="field">
-              <span>メッセージ・Lời nhắn cho cô dâu chú rể</span>
+              <span>{isJapanese ? "新郎新婦へのメッセージ" : "Lời nhắn cho cô dâu chú rể"}</span>
               <textarea name="message" rows={4} value={form.message} onChange={(e) => updateField("message", e.target.value)} />
             </label>
             <label className="field">
-              <span>ご連絡先・Số điện thoại hoặc email</span>
-              <input name="contact" value={form.contact} onChange={(e) => updateField("contact", e.target.value)} placeholder="Không bắt buộc" />
+              <span>{isJapanese ? "ご連絡先（電話番号またはメール）" : "Số điện thoại hoặc email"}</span>
+              <input name="contact" value={form.contact} onChange={(e) => updateField("contact", e.target.value)} placeholder={isJapanese ? "任意" : "Không bắt buộc"} />
             </label>
 
             <label className="confirm-row">
               <input required type="checkbox" checked={form.confirmed} onChange={(e) => updateField("confirmed", e.target.checked)} />
-              <span><b lang="ja">内容を確認しました。</b>Tôi đã kiểm tra nội dung trả lời.</span>
+              <span><b lang={language}>{isJapanese ? "回答内容を確認しました。" : "Tôi đã kiểm tra nội dung trả lời."}</b></span>
             </label>
 
             <button className="submit-button" type="submit" disabled={formState === "sending"}>
-              <span lang="ja">{formState === "sending" ? "送信中…" : "回答を送信する"}</span>
-              <span>{formState === "sending" ? "Đang gửi…" : "Gửi xác nhận"}</span>
+              <span lang={language}>
+                {formState === "sending"
+                  ? (isJapanese ? "送信中…" : "Đang gửi…")
+                  : (isJapanese ? "回答を送信する" : "Gửi xác nhận")}
+              </span>
             </button>
 
             {formState !== "idle" && (
               <div className={`form-notice notice-${formState}`} role="status" aria-live="polite">
                 {formState === "demo" && (
-                  <>
-                    <p>フォームは現在テストモードです。Form đang ở chế độ thử nghiệm và chưa gửi dữ liệu.</p>
-                    <button type="button" onClick={copyResponse}>Sao chép nội dung・内容をコピー</button>
-                  </>
+                  <p lang={language}>
+                    {isJapanese
+                      ? "フォームは現在テストモードのため、回答は送信されていません。"
+                      : "Biểu mẫu đang ở chế độ thử nghiệm và chưa gửi dữ liệu."}
+                  </p>
                 )}
-                {formState === "success" && <p>ご回答ありがとうございます。Cảm ơn bạn đã gửi xác nhận.</p>}
-                {formState === "error" && <p>Không thể gửi lúc này. Vui lòng dùng nút LINE bên dưới.</p>}
-                {formState === "copied" && <p>Đã sao chép nội dung・回答内容をコピーしました。</p>}
+                {formState === "success" && (
+                  <p lang={language}>
+                    {isJapanese
+                      ? "送信が完了しました。ご回答ありがとうございます。"
+                      : "Đã gửi thành công. Cảm ơn bạn đã xác nhận tham dự."}
+                  </p>
+                )}
+                {formState === "error" && (
+                  <p lang={language}>
+                    {isJapanese
+                      ? "現在送信できません。しばらくしてからもう一度お試しください。"
+                      : "Hiện chưa thể gửi. Vui lòng thử lại sau."}
+                  </p>
+                )}
               </div>
             )}
-
-            <div className="or-divider"><span>OR・HOẶC</span></div>
-            <button className="line-button" type="button" onClick={shareResponse}>
-              <span className="line-badge">LINE</span>
-              <span>LINEで回答を送る<small>Gửi câu trả lời qua LINE</small></span>
-            </button>
           </form>
         </div>
       </section>
@@ -419,7 +441,7 @@ export default function WeddingInvitation() {
         <div className="footer-names">
           {wedding.groomName} <span>&amp;</span> {wedding.brideName}
         </div>
-        <p className="footer-date">{wedding.weddingDateDisplay}</p>
+        <p className="footer-date">{wedding.weddingDateDisplay[language]}</p>
       </footer>
     </main>
   );
