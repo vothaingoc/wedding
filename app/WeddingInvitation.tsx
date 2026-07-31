@@ -8,7 +8,6 @@ type RsvpData = {
   attendance: "yes" | "no";
   guestCount: string;
   companions: string;
-  allergies: string;
   message: string;
   contact: string;
   confirmed: boolean;
@@ -19,7 +18,6 @@ const emptyRsvp: RsvpData = {
   attendance: "yes",
   guestCount: "1",
   companions: "",
-  allergies: "",
   message: "",
   contact: "",
   confirmed: false,
@@ -149,37 +147,6 @@ export default function WeddingInvitation() {
     return !Number.isNaN(deadline.getTime()) && new Date() > deadline;
   }, []);
 
-  const responseText = useMemo(
-    () => {
-      if (language === "ja") {
-        return [
-          "【結婚式出欠回答】",
-          "",
-          `お名前：${form.name || "—"}`,
-          `ご出欠：${form.attendance === "yes" ? "出席します" : "欠席します"}`,
-          `ご参加人数：${form.guestCount || "—"}`,
-          `お連れ様：${form.companions || "—"}`,
-          `アレルギー・お食事のご要望：${form.allergies || "—"}`,
-          `メッセージ：${form.message || "—"}`,
-          `ご連絡先：${form.contact || "—"}`,
-        ].join("\n");
-      }
-
-      return [
-        "【XÁC NHẬN THAM DỰ ĐÁM CƯỚI】",
-        "",
-        `Họ tên: ${form.name || "—"}`,
-        `Tham dự: ${form.attendance === "yes" ? "Tôi sẽ tham dự" : "Tôi không thể tham dự"}`,
-        `Số người: ${form.guestCount || "—"}`,
-        `Người đi cùng: ${form.companions || "—"}`,
-        `Dị ứng / yêu cầu món ăn: ${form.allergies || "—"}`,
-        `Lời nhắn: ${form.message || "—"}`,
-        `Liên hệ: ${form.contact || "—"}`,
-      ].join("\n");
-    },
-    [form, language],
-  );
-
   function updateField<K extends keyof RsvpData>(key: K, value: RsvpData[K]) {
     setForm((current) => ({ ...current, [key]: value }));
     if (formState !== "idle") setFormState("idle");
@@ -198,13 +165,19 @@ export default function WeddingInvitation() {
 
     setFormState("sending");
     try {
-      const body = wedding.rsvpEntryId
-        ? new URLSearchParams({ [wedding.rsvpEntryId]: responseText })
-        : new URLSearchParams({
-            ...form,
-            confirmed: String(form.confirmed),
-            submittedAt: new Date().toISOString(),
-          });
+      const isAttending = form.attendance === "yes";
+      const attendanceText = language === "ja"
+        ? (isAttending ? "出席します" : "欠席します")
+        : (isAttending ? "Tôi sẽ tham dự" : "Tôi không thể tham dự");
+      const entries = wedding.rsvpEntryIds;
+      const body = new URLSearchParams({
+        [entries.name]: form.name,
+        [entries.attendance]: attendanceText,
+        [entries.guestCount]: isAttending ? form.guestCount : "",
+        [entries.companions]: isAttending ? form.companions : "",
+        [entries.message]: form.message,
+        [entries.contact]: form.contact,
+      });
       await fetch(endpoint, { method: "POST", mode: "no-cors", body });
       const confirmationUrl = new URL(window.location.href);
       confirmationUrl.search = "";
@@ -446,10 +419,6 @@ export default function WeddingInvitation() {
             <label className="field">
               <span>{isJapanese ? "お連れ様のお名前" : "Tên người đi cùng"}</span>
               <input name="companions" value={form.companions} onChange={(e) => updateField("companions", e.target.value)} disabled={form.attendance === "no"} />
-            </label>
-            <label className="field">
-              <span>{isJapanese ? "アレルギー・お食事のご要望" : "Dị ứng / yêu cầu món ăn"}</span>
-              <textarea name="allergies" rows={3} value={form.allergies} onChange={(e) => updateField("allergies", e.target.value)} disabled={form.attendance === "no"} />
             </label>
             <label className="field">
               <span>{isJapanese ? "新郎新婦へのメッセージ" : "Lời nhắn cho cô dâu chú rể"}</span>

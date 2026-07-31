@@ -24,7 +24,14 @@ export const wedding = {
     "https://wedding-invitation-jp-vn.vothaingoc1991.chatgpt.site",
   rsvpEndpoint:
     "https://docs.google.com/forms/d/e/1FAIpQLSfeipE5jx_QjrvkRQfK-W8YrsRmFv1r42Km21t7SBDrHZPReQ/formResponse",
-  rsvpEntryId: "entry.1680294984",
+  rsvpEntryIds: {
+    name: "entry.1680294984",
+    attendance: "entry.1338772726",
+    guestCount: "entry.520416851",
+    companions: "entry.703606260",
+    message: "entry.1395813692",
+    contact: "entry.817715812",
+  },
   showTimeline: false,
   languages: ["ja", "vi"] as LanguageMode[],
   timeline: [
