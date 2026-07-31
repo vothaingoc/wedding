@@ -45,10 +45,10 @@ export const wedding = {
       "ご多用のところ恐縮ではございますが\nぜひご出席いただけますと幸いです。",
     ],
     vi: [
-      "Chúng tôi trân trọng thông báo rằng lễ thành hôn của chúng tôi sẽ được tổ chức trong thời gian tới.",
-      "Với mong muốn gửi lời cảm ơn đến những người đã luôn yêu thương và đồng hành cùng chúng tôi, gia đình xin tổ chức một buổi tiệc thân mật.",
-      "Sự hiện diện của quý vị là niềm vui và niềm vinh hạnh lớn lao đối với gia đình chúng tôi.",
-      "Gia đình rất mong được đón tiếp quý vị trong ngày đặc biệt này.",
+      "Chúng tôi trân trọng báo tin lễ thành hôn của Thái Ngọc và Ngọc Linh sẽ được tổ chức vào ngày 12 tháng 10 năm 2026.",
+      "Trong niềm hân hoan của ngày trọng đại, chúng tôi cùng gia đình trân trọng kính mời quý vị đến tham dự buổi tiệc thân mật và chung vui cùng hai gia đình.",
+      "Sự hiện diện của quý vị là niềm vinh hạnh và là món quà quý báu đối với chúng tôi cùng gia đình.",
+      "Rất hân hạnh được đón tiếp quý vị.",
     ],
   },
   noGiftMessage: {
